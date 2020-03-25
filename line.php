@@ -7,6 +7,34 @@ $POST_HEADER = array('Content-Type: application/json', 'Authorization: Bearer ' 
 $request = file_get_contents('php://input');   // Get request content
 $request_array = json_decode($request, true);   // Decode JSON to Array
 
+//API Url
+$url = '(https://maker.ifttt.com/trigger/click_final/with/key/fF25pJ-v04BVZm7CRNJbhCXN49MzHkkrPRrH1HFgeDA';
+
+//Initiate cURL.
+$ch = curl_init($url);
+
+//The JSON data.
+$jsonData = array(
+    'Value1' => '169',
+    'Value2' => '55',
+    'Value3' => '16'
+);
+
+//Encode the array into JSON.
+$jsonDataEncoded = json_encode($jsonData);
+
+//Tell cURL that we want to send a POST request.
+curl_setopt($ch, CURLOPT_POST, 1);
+
+//Attach our encoded JSON string to the POST fields.
+curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
+
+//Set the content type to application/json
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); 
+
+//Execute the request
+
+
 if ( sizeof($request_array['events']) > 0 )
 {
 
@@ -30,8 +58,8 @@ if ( sizeof($request_array['events']) > 0 )
 			$reply_message = 'ขณะนี้อยู่ที่ห้องเรียน IF-5T05 ...!!!';
 		}
 	   	else if(($text== "อยากทราบยอด COVID-19 ครับ")||($text== "อยากทราบยอดCOVID-19ครับ")||($text== "อยากทราบยอดCOVID-19")||($text== "COVID-19")){
-			$reply_message = "curl -X POST -H "Content-Type: application/json" -d '{"value1":"169","value2":"55","value3":"15"}' https://maker.ifttt.com/trigger/click_final/with/key/fF25pJ-v04BVZm7CRNJbhCXN49MzHkkrPRrH1HFgeDA";
-			//$reply_message = 'รายงานสถานการณ์ ยอดผู้ติดเชื้อไวรัสโคโรนา 2019 (COVID-19) ในประเทศไทย"
+			$reply_message = curl_exec($ch); 
+				//$reply_message = 'รายงานสถานการณ์ ยอดผู้ติดเชื้อไวรัสโคโรนา 2019 (COVID-19) ในประเทศไทย"
 					//ผู้ป่วยสะสม     จำนวน 398,995 ราย
 					//ผู้เสียชีวิต	  จำนวน 17,365 ราย
 					//รักษาหาย      จำนวน 103,753 ราย
