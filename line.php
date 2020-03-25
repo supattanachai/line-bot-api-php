@@ -33,7 +33,7 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); 
 
 //Execute the request
-
+$result = curl_exec($ch);
 
 if ( sizeof($request_array['events']) > 0 )
 {
@@ -58,7 +58,7 @@ if ( sizeof($request_array['events']) > 0 )
 			$reply_message = 'ขณะนี้อยู่ที่ห้องเรียน IF-5T05 ...!!!';
 		}
 	   	else if(($text== "อยากทราบยอด COVID-19 ครับ")||($text== "อยากทราบยอดCOVID-19ครับ")||($text== "อยากทราบยอดCOVID-19")||($text== "COVID-19")){
-			$reply_message = curl_exec($ch); 
+			$reply_message = $result; 
 				//$reply_message = 'รายงานสถานการณ์ ยอดผู้ติดเชื้อไวรัสโคโรนา 2019 (COVID-19) ในประเทศไทย"
 					//ผู้ป่วยสะสม     จำนวน 398,995 ราย
 					//ผู้เสียชีวิต	  จำนวน 17,365 ราย
